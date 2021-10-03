@@ -1,0 +1,6 @@
+repositories:
+- name: "luet-repo"
+  url: "https://raw.githubusercontent.com/Luet-lab/luet-repo/gh-pages"
+  github: "https://github.com/Luet-lab/luet-repo"
+
+BaseUrl: "https://luet-lab.github.io/package-browser-sample"

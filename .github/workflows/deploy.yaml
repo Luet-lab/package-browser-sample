@@ -1,0 +1,31 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - master
+  schedule:
+    - cron:  '*/30 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow
+    - name: Install deps 🔧
+      run: |
+        curl https://get.mocaccino.org/luet/get_luet_root.sh | sudo sh
+        sudo luet install -y extension/package-browser
+    - name: Build pages 🔧
+      run: |
+        bash build.sh
+    - name: Deploy GH Pages 🚀
+      uses: JamesIves/github-pages-deploy-action@3.6.2
+      with:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        BRANCH: gh-pages # The branch the action should deploy to.
+        FOLDER: build # The folder the action should deploy.
+        CLEAN: true # Automatically remove deleted files from the deploy branch
+        SINGLE_COMMIT: true
